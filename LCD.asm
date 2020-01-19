@@ -1,11 +1,11 @@
 ;=============================
-;SC1602BSLB LCDƒ‚ƒWƒ…[ƒ‹ ƒhƒ‰ƒCƒo
+;SC1602BSLB LCDãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ« ãƒ‰ãƒ©ã‚¤ãƒ
 ;=============================
 
-LCD		EQU	10H		;LCDƒ‚ƒWƒ…[ƒ‹‚Ìƒ|[ƒg”Ô†
+LCD		EQU	10H		;LCDãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ãƒãƒ¼ãƒˆç•ªå·
 
-ENABLE_BIT	EQU	10000000B	;ENABLEM†‚Ìƒrƒbƒg”Ô†
-RS_DATA		EQU	01000000B	;ƒf[ƒ^ƒŒƒWƒXƒ^
+ENABLE_BIT	EQU	10000000B	;ENABLEä¿¡å·ã®ãƒ“ãƒƒãƒˆç•ªå·
+RS_DATA		EQU	01000000B	;ãƒ‡ãƒ¼ã‚¿ãƒ¬ã‚¸ã‚¹ã‚¿
 
 ;INSTRUCTIONS
 INST_CLS	EQU	00000001B	;CLEAR DISPLAY
@@ -25,16 +25,16 @@ CODE_BLINK	EQU	00000001B	;"BLINK OF CURSOR"
 
 
 ;-----------------------------
-;[LCD]LCD‰Šú‰»
+;[LCD]LCDåˆæœŸåŒ–
 ;-----------------------------
 INIT_LCD:
 	CALL	LCD_WAIT	;
 	LD	B,3		;
-.L1:	LD	A,00000011B	;8BITƒ‚[ƒh‚ÉƒZƒbƒg
+.L1:	LD	A,00000011B	;8BITãƒ¢ãƒ¼ãƒ‰ã«ã‚»ãƒƒãƒˆ
 	CALL	SEND		;
 	DJNZ	.L1		;
 
-	LD	A,00000010B	;4BITƒ‚[ƒh‚ÉƒZƒbƒg
+	LD	A,00000010B	;4BITãƒ¢ãƒ¼ãƒ‰ã«ã‚»ãƒƒãƒˆ
 	CALL	SEND		;
 
 	LD	A,INST_FUNC+CODE_2LINE 	;
@@ -55,41 +55,41 @@ INIT_LCD:
 	RET
 
 ;-----------------------------
-;[LCD]4BITƒ‚[ƒh‚Åƒf[ƒ^‚ð‘—‚é
+;[LCD]4BITãƒ¢ãƒ¼ãƒ‰ã§ãƒ‡ãƒ¼ã‚¿ã‚’é€ã‚‹
 ;IN	A=DATA
 ;-----------------------------
 SEND_DATA:
 	LD	B,A		;
-	SRL	A		;A<-A‚ÌãˆÊ4ƒrƒbƒg
+	SRL	A		;A<-Aã®ä¸Šä½4ãƒ“ãƒƒãƒˆ
 	SRL	A		;
 	SRL	A		;
 	SRL	A		;
-	OR	RS_DATA		;RSM†‚ðæ‚¹‚é
+	OR	RS_DATA		;RSä¿¡å·ã‚’ä¹—ã›ã‚‹
 	CALL	SEND		;
 	LD	A,B		;
-	AND	00001111B	;A<-A‚Ì‰ºˆÊ4ƒrƒbƒg
+	AND	00001111B	;A<-Aã®ä¸‹ä½4ãƒ“ãƒƒãƒˆ
 	OR	RS_DATA		;
 	CALL	SEND		;
 	JR	LCD_WAIT	;
 
 ;-----------------------------
-;[LCD]4BITƒ‚[ƒh‚ÅŽwŽ¦‚ð‘—‚é
+;[LCD]4BITãƒ¢ãƒ¼ãƒ‰ã§æŒ‡ç¤ºã‚’é€ã‚‹
 ;IN	A=DATA
 ;-----------------------------
 SEND_INST:
 	LD	B,A		;
-	SRL	A		;A<-A‚ÌãˆÊ4ƒrƒbƒg
+	SRL	A		;A<-Aã®ä¸Šä½4ãƒ“ãƒƒãƒˆ
 	SRL	A		;
 	SRL	A		;
 	SRL	A		;
 	CALL	SEND		;
 	LD	A,B		;
-	AND	00001111B	;A<-A‚Ì‰ºˆÊ4ƒrƒbƒg
+	AND	00001111B	;A<-Aã®ä¸‹ä½4ãƒ“ãƒƒãƒˆ
 	CALL	SEND		;
 	JR	LCD_WAIT	;
 
 ;-----------------------------
-;[LCD]LCD‚Éƒf[ƒ^EŽwŽ¦‚ð‘—‚é
+;[LCD]LCDã«ãƒ‡ãƒ¼ã‚¿ãƒ»æŒ‡ç¤ºã‚’é€ã‚‹
 ;IN	A=DATA
 ;-----------------------------
 SEND:
@@ -107,8 +107,8 @@ SEND:
 	RET
 
 ;-----------------------------
-;[LCD]Œ»Ý‚ÌƒJ[ƒ\ƒ‹ˆÊ’u‚É•¶Žš—ñ‚ðo—Í‚·‚é
-;IN	HL=•¶Žš—ñƒ|ƒCƒ“ƒ^(00H‚ÅI—¹)
+;[LCD]ç¾åœ¨ã®ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã«æ–‡å­—åˆ—ã‚’å‡ºåŠ›ã™ã‚‹
+;IN	HL=æ–‡å­—åˆ—ãƒã‚¤ãƒ³ã‚¿(00Hã§çµ‚äº†)
 ;-----------------------------
 LCD_PRT:
 	PUSH	BC		;
@@ -156,7 +156,7 @@ CMD_HOME:
 	JR	LCD_LWAIT	;
 
 ;-----------------------------
-;[LCD]ƒEƒFƒCƒg 4*6+10=34ƒNƒƒbƒN
+;[LCD]ã‚¦ã‚§ã‚¤ãƒˆ
 ;-----------------------------
 LCD_WAIT:
 	NOP
@@ -168,7 +168,7 @@ LCD_WAIT:
 	RET
 
 ;-----------------------------
-;[LCD]ƒƒ“ƒOƒEƒFƒCƒg 34*38+10=1302ƒNƒƒbƒN
+;[LCD]ãƒ­ãƒ³ã‚°ã‚¦ã‚§ã‚¤ãƒˆ
 ;-----------------------------
 LCD_LWAIT:
 	PUSH	BC
